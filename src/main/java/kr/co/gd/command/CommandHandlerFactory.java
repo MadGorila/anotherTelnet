@@ -1,5 +1,7 @@
 package kr.co.gd.command;
 
+import java.util.logging.Logger;
+
 /**
  * Factory generating command handlers
  *
@@ -7,7 +9,7 @@ package kr.co.gd.command;
  *
  */
 public class CommandHandlerFactory {
-
+    private final Logger logger = Logger.getLogger(StatusHandler.class.getName());
     private static CommandHandlerFactory factory;
 
     /**
@@ -30,6 +32,8 @@ public class CommandHandlerFactory {
      * @return
      */
     public CommandHandler getHandler(final String command, final String workingDir) {
+        logger.info(">>>>> [CommandHandler] command?: " + command);
+
         if (command.matches("^cd .*")) {
             return new CDHandler(command, workingDir);
         } else if (command.matches("^ls.*")) {
@@ -42,6 +46,14 @@ public class CommandHandlerFactory {
             return new StatusHandler(command);
         } else if (command.equalsIgnoreCase("exit")) {
             return new ExitHandler();
+        } else if (command.startsWith("goto")) {
+            // command: goto 목적지
+            return new GotoHandler(command);
+        } else if (command.startsWith("execute")) {
+            // command: execute macro 매크로명
+            return new ExecuteMecroHandler(command);
+        } else if (command.equalsIgnoreCase("")) {
+            return new TempCmdHandler();
         } else {
             return new UnknownCommandHandler(command);
         }

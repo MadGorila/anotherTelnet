@@ -1,6 +1,11 @@
 package kr.co.gd.server;
 
 import kr.co.gd.configuration.ConfigurationManager;
+import kr.co.gd.repository.OmronRepository;
+import kr.co.gd.service.OmronService;
+import kr.co.gd.service.impl.OmronServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -25,6 +30,7 @@ public class TelnetServer {
     private final ExecutorService executor = Executors
             .newFixedThreadPool(ConfigurationManager.INSTANCE.getMaxThreads());
     private final String workingDir = System.getProperty("user.dir");
+    private final OmronService omronService = new OmronServiceImpl();
 
     private final int GIVEN_PORT;
 
