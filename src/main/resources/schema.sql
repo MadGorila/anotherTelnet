@@ -1,0 +1,7 @@
+DROP TABLE IF EXIST omron;
+
+CREATE TABLE omron
+(
+    id IDENTITY PRIMARY KEY,
+    command VARCHAR(255)
+)
