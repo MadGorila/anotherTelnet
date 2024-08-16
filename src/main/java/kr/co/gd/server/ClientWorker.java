@@ -4,17 +4,16 @@ import kr.co.gd.command.CDHandler;
 import kr.co.gd.command.CommandHandler;
 import kr.co.gd.command.CommandHandlerFactory;
 import kr.co.gd.command.ExitHandler;
-import kr.co.gd.common.Util;
-import kr.co.gd.service.OmronService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +47,7 @@ public class ClientWorker implements Runnable {
     @Override
     public void run() {
         try {
+            ExecutorService es = Executors.newCachedThreadPool();
             final BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             final PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -80,8 +80,9 @@ public class ClientWorker implements Runnable {
                     logger.info("Working directory set to: " + workingDir);
                 }
                 out.println(response);
-
-                responseSuccessMsg(command);
+                
+                CompletableFuture<Void> future = new CompletableFuture<>();
+                es.submit(() -> future.complete(responseSuccessMsg(command)));
 
                 // command issuing an exit.
                 if (handler instanceof ExitHandler) {
@@ -121,8 +122,7 @@ public class ClientWorker implements Runnable {
         return builder.toString();
     }
 
-    @Async
-    public void responseSuccessMsg(String cmd) {
+    public Void responseSuccessMsg(String cmd) {
         StringBuilder sb = new StringBuilder();
 
         String[] cmdArr = cmd.split(" ");
@@ -153,5 +153,6 @@ public class ClientWorker implements Runnable {
                 e.printStackTrace();
             }
         }
+        return null;
     }
 }
