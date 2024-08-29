@@ -28,3 +28,11 @@ spring:
 #datasource:
 #  dbname: omron
 #  script: classpath:resource/omron.sql
+mqtt:
+  automatic-reconnect: true
+  clean-start: true
+  connection-timeout: 10
+  host-name: 192.168.100.105
+  port: 1883
+  client-id: FPROD-N-001
+
