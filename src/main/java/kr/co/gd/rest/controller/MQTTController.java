@@ -1,8 +1,7 @@
 package kr.co.gd.rest.controller;
 
-import kr.co.gd.mqtt.dto.MQTTDto;
+import kr.co.gd.mqtt.dto.MQTTDTO;
 import kr.co.gd.mqtt.service.MQTTService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class MQTTController {
     private MQTTService mqttService;
 
     @PostMapping("/pub")
-    public ResponseEntity<Void> publish(@RequestBody MQTTDto dto) {
+    public ResponseEntity<Void> publish(@RequestBody MQTTDTO dto) {
         mqttService.publish(dto);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
