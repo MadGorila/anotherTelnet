@@ -40,19 +40,19 @@ public class MqttConfig {
         mqttClient.connect(options);
         return mqttClient;
     }
-    @Bean
-    public IMqttClient noodleMqttClient() throws MqttException {
-        IMqttClient mqttClient = new MqttClient("tcp://192.168.100.105:1883", "FPROD-N-001");
-        MqttConnectionOptions options = new MqttConnectionOptions();
-        options.setUserName(MQTT_USERNAME);
-        options.setPassword(MQTT_PASSWORD.getBytes());
-        options.setCleanStart(true);
-        options.setAutomaticReconnect(true);
-        options.setConnectionTimeout(10);
-//        mqttClient.connect(mqttConnectionOptions());
-        mqttClient.connect(options);
-        return mqttClient;
-    }
+//    @Bean
+//    public IMqttClient noodleMqttClient() throws MqttException {
+//        IMqttClient mqttClient = new MqttClient("tcp://192.168.100.105:1883", "FPROD-N-001");
+//        MqttConnectionOptions options = new MqttConnectionOptions();
+//        options.setUserName(MQTT_USERNAME);
+//        options.setPassword(MQTT_PASSWORD.getBytes());
+//        options.setCleanStart(true);
+//        options.setAutomaticReconnect(true);
+//        options.setConnectionTimeout(10);
+////        mqttClient.connect(mqttConnectionOptions());
+//        mqttClient.connect(options);
+//        return mqttClient;
+//    }
 //
 //    @Bean
 //    public MessageChannel mqttInputChannel() {
